@@ -1,0 +1,41 @@
+#! /bin/bash
+# For setting up new test site locally
+# new_site hostname.local ~/development/internal
+
+HOSTNAME=$1
+DOCROOT=$2
+
+sudo touch /etc/apache2/sites-available/$
+#! /bin/bash
+# For setting up new test site locally
+# new_site hostname.local ~/development/internal
+
+HOSTNAME=$1
+DOCROOT=$2
+
+sudo touch /etc/apache2/sites-available/$HOSTNAME.conf
+sudo chmod 777 /etc/apache2/sites-available/$HOSTNAME.conf
+
+echo "<VirtualHost *:80>
+        ServerName $HOSTNAME
+
+        ServerAdmin admin@$HOSTNAME
+        DocumentRoot $DOCROOT
+        <Directory \"$DOCROOT\">
+                Options Indexes FollowSymLinks MultiViews
+                AllowOverride All
+                Order allow,deny
+                Allow from all
+        </Directory>
+
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+" > /etc/apache2/sites-available/$HOSTNAME.conf
+
+sudo chmod 644 /etc/apache2/sites-available/$HOSTNAME.conf
+
+sudo a2ensite $HOSTNAME.conf
+sudo service apache2 reload
+
+echo "127.0.0.1 $HOSTNAME" | sudo tee --append /etc/hosts

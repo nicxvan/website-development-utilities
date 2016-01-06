@@ -1,0 +1,17 @@
+#! /bin/bash
+# Archiving the files
+# archiver /root/backups/archives/period/serveridentifier /backups/archive/serveridentifier
+# tar -cvpzf /root/backups/weekly/serveridentifieryyyy-mm-dd.tar.gz /root/backups/rsync/serveridentifier
+
+ARCHIVEDIR=$1
+LOCALRSYNCBACKUP=$2
+
+TIMESTAMP=$(date +"%F")
+
+CMDPART1="tar -cvpzf "
+CMDPART2=".tar.gz "
+CMDPART4=" "
+
+command=$CMDPART1$ARCHIVEDIR$TIMESTAMP$CMDPART2$LOCALRSYNCBACKUP
+
+$command;

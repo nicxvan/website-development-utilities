@@ -1,0 +1,17 @@
+#! /bin/bash
+# For rsyncing files
+# rsyncer root 111.111.111.111 /var/www/vhosts backup/rsync/serveridentifier
+
+
+SERVERUSER=$1
+SERVERIP=$2
+REMOTEFILES=$3
+LOCALFILES=$4
+
+
+RSYNCPART1="rsync -avz -e ssh "
+RSYNCPART2="@"
+RSYNCPART3=":"
+RSYNCPART4=" "
+
+$RSYNCPART1$SERVERUSER$RSYNCPART2$SERVERIP$RSYNCPART3$REMOTEFILES$RSYNCPART4$LOCALFILES

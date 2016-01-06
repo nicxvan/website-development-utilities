@@ -1,0 +1,10 @@
+#! /bin/bash
+# For removing test site locally
+# remove_site hostname.local
+
+HOSTNAME=$1
+
+a2dissite $HOSTNAME.conf
+service apache2 reload
+
+sudo rm -rf /etc/apache2/sites-available/$HOSTNAME.conf

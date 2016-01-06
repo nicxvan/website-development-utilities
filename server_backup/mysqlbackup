@@ -1,0 +1,21 @@
+#! /bin/bash
+# For backing up all mysql databases on a server
+# mysqlbackup serveruser 111.111.111.111 mysqluser /var/www/vhosts/mysqlbackup
+
+
+SERVERUSER=$1
+SERVERIP=$2
+MYSQL_USER=$3
+MYSQL_BACKUP=$4
+
+CMDPART1="mysql -u "
+CMDPART2=' -e "show databases" | grep -Ev '
+CMDPART3="'Database|information_schema' | "
+CMDPART4='while read dbname; do mysqldump --skip-lock-tables --ignore-table=mysql.event -u '
+CMDPART5=' $dbname > '
+CMDPART6='/$dbname.sql; done'
+
+
+command=$CMDPART1$MYSQL_USER$CMDPART2$CMDPART3$CMDPART4$MYSQL_USER$CMDPART5$MYSQL_BACKUP$CMDPART6
+
+ssh $SERVERUSER@$SERVERIP $command
